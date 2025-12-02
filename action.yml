@@ -42,7 +42,7 @@ runs:
       if: steps.cache-downloads.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        VERSION=$( echo ${{ inputs.godot-version }} | tr - . )
+        VERSION=$( echo ${{ inputs.godot-version }}.stable )
         TEMPLATES_PATH=/home/runner/.local/share/godot/export_templates/
 
         mkdir -p ${TEMPLATES_PATH}
