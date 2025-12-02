@@ -30,7 +30,9 @@ runs:
       shell: bash
       run: |
         mkdir -p $HOME/.local/bin
-        curl -L https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_linux.x86_64.zip -o godot.zip
+        curl -L \
+          https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_linux.x86_64.zip \
+          -o godot.zip
         ls -la
         unzip -o godot.zip -d $HOME/.local/bin
         chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64
@@ -47,9 +49,8 @@ runs:
         mkdir -p ${TEMPLATES_PATH}
 
         curl -s -L \
-          https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_export_templates.tpz \
+          https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz \
           -o export_templates.tpz
-
         unzip export_templates.tpz -d ${TEMPLATES_PATH}
         cd ${TEMPLATES_PATH}
         mv templates ${VERSION}
