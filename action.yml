@@ -1,0 +1,54 @@
+name: "Setup Godot"
+description: "Downloads and caches Godot + export templates"
+
+inputs:
+  godot-version:
+    description: "Godot version, e.g. 4.2.2"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Prep paths
+      id: prep
+      shell: bash
+      run: |
+        echo "godot_bin=Godot_v${{ inputs.godot-version }}_linux.x86_64" >> $GITHUB_OUTPUT
+        VERSION_DOTS=$(echo "${{ inputs.godot-version }}" | tr - .)
+        echo "templates_dir_name=${VERSION_DOTS}" >> $GITHUB_OUTPUT
+
+    - name: Cache downloads
+      id: cache-downloads
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ github.workspace }}/${{ steps.prep.outputs.godot_bin }}
+          /home/runner/.local/share/godot/export_templates/${{ steps.prep.outputs.templates_dir_name }}
+        key: godot-${{ inputs['godot-version'] }}
+
+    - name: Download and install Godot
+      shell: bash
+      run: |
+        mkdir -p $HOME/.local/bin
+        curl -sL https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_linux.x86_64.zip -o godot.zip
+        unzip -o godot.zip -d $HOME/.local/bin
+        chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64
+        ln -s $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64 $HOME/.local/bin/godot
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Download and install export templates
+      if: steps.cache-downloads.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        VERSION=$( echo ${{ inputs.godot-version }} | tr - . )
+        TEMPLATES_PATH=/home/runner/.local/share/godot/export_templates/
+
+        mkdir -p ${TEMPLATES_PATH}
+
+        curl -s -L \
+          https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_export_templates.tpz \
+          -o export_templates.tpz
+
+        unzip export_templates.tpz -d ${TEMPLATES_PATH}
+        cd ${TEMPLATES_PATH}
+        mv templates ${VERSION}
