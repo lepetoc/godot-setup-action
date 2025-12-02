@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         mkdir -p $HOME/.local/bin
-        curl -s https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_linux.x86_64.zip -o godot.zip
+        curl -L https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_linux.x86_64.zip -o godot.zip
         ls -la
         unzip -o godot.zip -d $HOME/.local/bin
         chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64
