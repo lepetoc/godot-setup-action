@@ -21,9 +21,7 @@ runs:
       id: cache-downloads
       uses: actions/cache@v4
       with:
-        path: |
-          ${{ github.workspace }}/${{ steps.prep.outputs.godot_bin }}
-          /home/runner/.local/share/godot/export_templates/${{ steps.prep.outputs.templates_dir_name }}
+        path: /home/runner/.local/share/godot/export_templates/${{ steps.prep.outputs.templates_dir_name }}
         key: godot-${{ inputs['godot-version'] }}
 
     - name: Download and install Godot
