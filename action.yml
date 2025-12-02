@@ -30,13 +30,12 @@ runs:
       shell: bash
       run: |
         mkdir -p $HOME/.local/bin
-        curl -L \
+        curl -sL \
           https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_linux.x86_64.zip \
           -o godot.zip
-        ls -la
         unzip -o godot.zip -d $HOME/.local/bin
-        chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64
-        ln -s $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64 $HOME/.local/bin/godot
+        chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}-stable_linux.x86_64
+        ln -sf $HOME/.local/bin/Godot_v${{ inputs.godot-version }}-stable_linux.x86_64 $HOME/.local/bin/godot
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Download and install export templates
