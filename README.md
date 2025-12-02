@@ -27,12 +27,12 @@ A reusable GitHub Action that installs **Godot Engine** and its **export templat
 
 Add this step to your workflow:
 
-````yaml
+```yaml
 - name: Setup Godot
   uses: yourname/godot-setup-action@v1
   with:
     godot-version: "4.2.2"
-
+```
 
 After this action runs, Godot and its export templates are installed and ready for use.
 You can immediately call Godot commands anywhere in the workflow:
@@ -40,4 +40,4 @@ You can immediately call Godot commands anywhere in the workflow:
 ```yaml
 - name: Export Game
   run: godot --headless --export-release "Linux/X11" build/game.x86_64
-````
+```
