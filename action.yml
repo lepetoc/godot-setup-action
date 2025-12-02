@@ -31,6 +31,7 @@ runs:
       run: |
         mkdir -p $HOME/.local/bin
         curl -sL https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}_linux.x86_64.zip -o godot.zip
+        ls -la
         unzip -o godot.zip -d $HOME/.local/bin
         chmod +x $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64
         ln -s $HOME/.local/bin/Godot_v${{ inputs.godot-version }}_linux.x86_64 $HOME/.local/bin/godot
