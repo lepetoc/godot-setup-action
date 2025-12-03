@@ -15,7 +15,7 @@ runs:
       run: |
         echo "godot_bin=Godot_v${{ inputs.godot-version }}-stable_linux.x86_64" >> $GITHUB_OUTPUT
         VERSION_DOTS=$(echo "${{ inputs.godot-version }}" | tr - .)
-        echo "templates_dir_name=${VERSION_DOTS}" >> $GITHUB_OUTPUT
+        echo "templates_dir_name=${VERSION_DOTS}.stable" >> $GITHUB_OUTPUT
 
     - name: Cache downloads
       id: cache-downloads
@@ -40,7 +40,6 @@ runs:
       if: steps.cache-downloads.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        VERSION=$( echo ${{ inputs.godot-version }}.stable )
         TEMPLATES_PATH=/home/runner/.local/share/godot/export_templates/
 
         mkdir -p ${TEMPLATES_PATH}
@@ -50,4 +49,4 @@ runs:
           -o export_templates.tpz
         unzip export_templates.tpz -d ${TEMPLATES_PATH}
         cd ${TEMPLATES_PATH}
-        mv templates ${VERSION}
+        mv templates ${{ steps.prep.outputs.templates_dir_name }}
