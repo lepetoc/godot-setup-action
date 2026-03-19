@@ -29,7 +29,7 @@ Add this step to your workflow:
 
 ```yaml
 - name: Setup Godot
-  uses: yourname/godot-setup-action@v1
+  uses: lepetoc/godot-setup-action@v1
   with:
     godot-version: "4.2.2"
 ```
